@@ -214,8 +214,6 @@ def eeschema_parse_erc(erc_file, warning_as_error=False, generate_junit_xml=Fals
     return int(errors)
 
 def eeschema_run_erc(schematic, output_dir, warning_as_error, generate_junit_xml=False):
-    os.environ['EDITOR'] = '/bin/cat'
-
     screencast_output_file = os.path.join(output_dir, 'run_erc_schematic_screencast.ogv')
 
     with recorded_xvfb(screencast_output_file, width=1024, height=768, colordepth=24):
