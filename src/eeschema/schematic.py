@@ -51,13 +51,13 @@ def dismiss_library_warning():
     # *-cache.lib file:
     try:
         nf_title = 'Project Rescue Helper'
-        wait_for_window(nf_title, nf_title, 3)
+        wait_for_window(nf_title, nf_title, 5)
 
         logger.info('Dismiss eeschema library warning window')
         xdotool(['search', '--name', nf_title, 'windowfocus'])
         xdotool(['key', 'Return'])
-    except RuntimeError:
-        pass
+    except RuntimeError as e:
+        print(e)
 
 def dismiss_newer_version():
     try:
@@ -83,7 +83,7 @@ def eeschema_plot_schematic(output_directory, file_format, all_pages):
     xdotool(['search', '--name', '\[', 'windowfocus'])
 
     logger.info('Open File->Plot')
-    xdotool(['key', 'alt+f', 'l'])
+    xdotool(['key', 'alt+f', 'Up', 'Up', 'Return'])
 
     wait_for_window('plot', 'Plot')
 
@@ -143,7 +143,7 @@ def eeschema_export_schematic(schematic, output_dir, file_format="svg", all_page
     os.path.basename('/root/dir/sub/file.ext')
 
     with recorded_xvfb(screencast_output_file, width=800, height=600, colordepth=24):
-        with PopenContext(['eeschema', schematic], close_fds=True) as eeschema_proc:
+        with PopenContext(['eeschema-nightly', schematic], close_fds=True) as eeschema_proc:
             eeschema_plot_schematic(output_dir, file_format, all_pages)
             file_util.wait_for_file_created_by_process(eeschema_proc.pid, output_file)
             eeschema_proc.terminate()
@@ -218,11 +218,10 @@ def eeschema_run_erc(schematic, output_dir, warning_as_error, generate_junit_xml
 
     screencast_output_file = os.path.join(output_dir, 'run_erc_schematic_screencast.ogv')
 
-    with recorded_xvfb(screencast_output_file, width=800, height=600, colordepth=24):
-        with PopenContext(['eeschema', schematic], close_fds=True) as eeschema_proc:
+    with recorded_xvfb(screencast_output_file, width=1024, height=768, colordepth=24):
+        with PopenContext(['eeschema-nightly', schematic], close_fds=True) as eeschema_proc:
             dismiss_library_warning()
             # dismiss_newer_version()
-
             logger.info('Focus main eeschema window')
             wait_for_window('eeschema', '\[')
 
@@ -232,6 +231,7 @@ def eeschema_run_erc(schematic, output_dir, warning_as_error, generate_junit_xml
                 'c'
             ])
 
+            xdotool(['key', 'Return'])
             # Do this now since we have to wait for KiCad anyway
             clipboard_store(output_dir)
 

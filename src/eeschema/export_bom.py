@@ -27,7 +27,7 @@ repo_root = os.path.dirname(electronics_root)
 sys.path.append(repo_root)
 
 from util import file_util
-from ui_automation import (
+from util.ui_automation import (
     PopenContext,
     xdotool,
     wait_for_window,
@@ -63,7 +63,7 @@ def export_bom():
     screencast_output_file = os.path.join(output_dir, 'export_bom_screencast.ogv')
 
     with recorded_xvfb(screencast_output_file, width=800, height=600, colordepth=24):
-        with PopenContext(['eeschema', schematic_file], close_fds=True) as eeschema_proc:
+        with PopenContext(['eeschema-nightly', schematic_file], close_fds=True) as eeschema_proc:
             eeschema_export_bom(output_dir)
             eeschema_proc.terminate()
 

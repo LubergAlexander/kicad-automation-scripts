@@ -84,7 +84,7 @@ def run_drc(pcb_file, output_dir, record=True):
     }
 
     with recorded_xvfb(recording_file, **xvfb_kwargs) if record else Xvfb(**xvfb_kwargs):
-        with PopenContext(['pcbnew', pcb_file], close_fds=True) as pcbnew_proc:
+        with PopenContext(['pcbnew-nightly', pcb_file], close_fds=True) as pcbnew_proc:
             clipboard_store(drc_output_file)
 
             window = wait_for_window('pcbnew', 'Pcbnew', 10, False)
@@ -98,7 +98,7 @@ def run_drc(pcb_file, output_dir, record=True):
             wait_for_window('pcbnew', 'Pcbnew')
 
             logger.info('Open Inspect->DRC')
-            xdotool(['key', 'alt+i', 'd'])
+            xdotool(['key', 'alt+i', 'Up', 'Return'])
 
             logger.info('Focus DRC modal window')
             wait_for_window('DRC modal window', 'DRC Control')
@@ -110,10 +110,17 @@ def run_drc(pcb_file, output_dir, record=True):
                 'Tab',
                 'space', # Enable reporting all errors for tracks
                 'Tab',
+                'space'
                 'Tab',
+                'space'
                 'Tab',
                 'space',
-                'Tab'
+                'Tab',
+                'space',
+                'Tab',
+                'space',
+                'Tab',
+                'space', 
             ])
             logger.info('Pasting output dir')
             xdotool(['key', 'ctrl+v'])
