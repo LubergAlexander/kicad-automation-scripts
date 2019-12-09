@@ -110,17 +110,13 @@ def run_drc(pcb_file, output_dir, record=True):
                 'Tab',
                 'space', # Enable reporting all errors for tracks
                 'Tab',
-                'space'
-                'Tab',
-                'space'
-                'Tab',
                 'space',
                 'Tab',
                 'space',
                 'Tab',
                 'space',
                 'Tab',
-                'space', 
+                'space',
             ])
             logger.info('Pasting output dir')
             xdotool(['key', 'ctrl+v'])
@@ -159,4 +155,4 @@ if __name__ == '__main__':
             drc_result['unconnected_pads']
         ))
         exit(drc_result['drc_errors']+drc_result['unconnected_pads'])
-    
+
