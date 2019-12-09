@@ -14,10 +14,6 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-# Add KiCad python module location
-import sys
-sys.path.insert(0, "/usr/lib/kicad-nightly/lib/python3/dist-packages")
-
 import argparse
 import logging
 import os
@@ -33,7 +29,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 def plot(pcb, file_format, layers, plot_directory):
-    
+
     temp_dir = os.path.join(plot_directory, 'temp')
     shutil.rmtree(temp_dir, ignore_errors=True)
     try:
@@ -76,7 +72,7 @@ def plot_to_directory(pcb, file_format, layers, plot_directory, temp_dir):
             output_files.append(output_filename)
             logger.debug(output_filename)
 
-            with open(output_filename, 'rb') as output_file: 
+            with open(output_filename, 'rb') as output_file:
                 pdf_file = PdfFileReader(output_file)
                 merger.append(pdf_file)
 
@@ -89,11 +85,11 @@ def plot_to_directory(pcb, file_format, layers, plot_directory, temp_dir):
 
         merger.write(plot_directory+'/{}.pdf'.format(pcb.name))
 
-    
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Plot a KiCad PCB layout')
-    
+
     parser.add_argument('pcb_file', help='The pcbnew layout (.kicad_pcb) file')
     parser.add_argument('output_dir', help='Output directory')
 
